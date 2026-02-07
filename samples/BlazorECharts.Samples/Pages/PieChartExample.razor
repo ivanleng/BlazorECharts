@@ -1,0 +1,69 @@
+@page "/pie-chart"
+
+<h1>Pie Chart Example</h1>
+<p>
+    This example displays a pie chart with labels using <code>PieSeries</code>. The chart
+    shows browser market share data with percentage labels and hover emphasis effects.
+</p>
+
+<EChart Option="@_option" Height="500px" />
+
+@code {
+    private EChartOption _option = new();
+
+    protected override void OnInitialized()
+    {
+        _option = new EChartOption
+        {
+            Title = new Title
+            {
+                Text = "Browser Market Share",
+                Subtext = "Fictional Data",
+                Left = "center"
+            },
+            Tooltip = new Tooltip
+            {
+                Trigger = "item",
+                Formatter = "{a} <br/>{b}: {c} ({d}%)"
+            },
+            Legend = new Legend
+            {
+                Orient = "vertical",
+                Left = "left",
+                Data = new List<string> { "Chrome", "Firefox", "Safari", "Edge", "Other" }
+            },
+            Color = new List<string> { "#5470c6", "#91cc75", "#fac858", "#ee6666", "#73c0de" },
+            Series = new List<Series>
+            {
+                new PieSeries
+                {
+                    Name = "Browser",
+                    Radius = "65%",
+                    Center = new[] { "50%", "55%" },
+                    Label = new
+                    {
+                        show = true,
+                        formatter = "{b}: {d}%"
+                    },
+                    Emphasis = new
+                    {
+                        itemStyle = new
+                        {
+                            shadowBlur = 10,
+                            shadowOffsetX = 0,
+                            shadowColor = "rgba(0, 0, 0, 0.5)"
+                        }
+                    },
+                    Data = new object[]
+                    {
+                        new { value = 63, name = "Chrome" },
+                        new { value = 12, name = "Firefox" },
+                        new { value = 10, name = "Safari" },
+                        new { value = 8, name = "Edge" },
+                        new { value = 7, name = "Other" }
+                    }
+                }
+            }
+        };
+    }
+}

@@ -1,0 +1,101 @@
+@page "/dark-theme"
+
+<h1>Dark Theme Example</h1>
+<p>
+    This example demonstrates toggling between light and dark ECharts themes using the
+    <code>Theme</code> parameter on the <code>&lt;EChart&gt;</code> component. ECharts
+    ships with a built-in <code>"dark"</code> theme. Passing <code>null</code> uses the
+    default light theme.
+</p>
+
+<div style="margin-bottom: 1rem;">
+    <button @onclick="ToggleTheme" style="padding: 0.5rem 1rem; cursor: pointer; border: none; border-radius: 4px; background-color: @(_isDark ? "#333" : "#e0e0e0"); color: @(_isDark ? "#fff" : "#333");">
+        Switch to @(_isDark ? "Light" : "Dark") Theme
+    </button>
+    <span style="margin-left: 1rem; color: #666;">
+        Current theme: <strong>@(_isDark ? "dark" : "default (light)")</strong>
+    </span>
+</div>
+
+<div style="background-color: @(_isDark ? "#333" : "#fff"); padding: 1rem; border-radius: 8px; transition: background-color 0.3s;">
+    <EChart Option="@_option" Height="500px" Theme="@_theme" />
+</div>
+
+@code {
+    private bool _isDark = false;
+    private string? _theme = null;
+
+    private EChartOption _option = new();
+
+    protected override void OnInitialized()
+    {
+        _option = new EChartOption
+        {
+            Title = new Title
+            {
+                Text = "Server Performance Metrics",
+                Subtext = "Toggle the theme to see the difference",
+                Left = "center"
+            },
+            Tooltip = new Tooltip
+            {
+                Trigger = "axis"
+            },
+            Legend = new Legend
+            {
+                Data = new List<string> { "CPU Usage", "Memory Usage", "Disk I/O" },
+                Top = "bottom"
+            },
+            Grid = new Grid
+            {
+                Left = "3%",
+                Right = "4%",
+                Bottom = "10%",
+                ContainLabel = true
+            },
+            XAxis = new XAxis
+            {
+                Type = "category",
+                BoundaryGap = false,
+                Data = new List<string>
+                {
+                    "00:00", "03:00", "06:00", "09:00", "12:00",
+                    "15:00", "18:00", "21:00"
+                }
+            },
+            YAxis = new YAxis
+            {
+                Type = "value",
+                Name = "Percentage (%)"
+            },
+            Series = new List<Series>
+            {
+                new LineSeries
+                {
+                    Name = "CPU Usage",
+                    Smooth = true,
+                    Data = new List<int> { 30, 25, 40, 65, 78, 72, 55, 35 }
+                },
+                new LineSeries
+                {
+                    Name = "Memory Usage",
+                    Smooth = true,
+                    Data = new List<int> { 50, 48, 52, 70, 75, 73, 68, 55 }
+                },
+                new LineSeries
+                {
+                    Name = "Disk I/O",
+                    Smooth = true,
+                    AreaStyle = new { },
+                    Data = new List<int> { 10, 8, 15, 35, 42, 38, 28, 12 }
+                }
+            }
+        };
+    }
+
+    private void ToggleTheme()
+    {
+        _isDark = !_isDark;
+        _theme = _isDark ? "dark" : null;
+    }
+}
