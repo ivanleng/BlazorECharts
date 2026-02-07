@@ -1,0 +1,118 @@
+@page "/click-event"
+
+<h1>Click Event Example</h1>
+<p>
+    This example demonstrates handling chart click events using the <code>OnClick</code>
+    callback parameter. Click on any bar in the chart to see the event data displayed below.
+</p>
+
+<EChart Option="@_option" Height="450px" OnClick="@HandleClick" />
+
+<div style="margin-top: 1.5rem; padding: 1rem; background-color: #f0f0f0; border-radius: 6px; border: 1px solid #ddd;">
+    <h3 style="margin-top: 0;">Click Event Data</h3>
+    @if (_lastClick is not null)
+    {
+        <table style="width: 100%; border-collapse: collapse;">
+            <tr>
+                <td style="padding: 0.4rem 0.8rem; font-weight: bold; width: 160px;">Name:</td>
+                <td style="padding: 0.4rem 0.8rem;">@_lastClick.Name</td>
+            </tr>
+            <tr>
+                <td style="padding: 0.4rem 0.8rem; font-weight: bold;">Series Name:</td>
+                <td style="padding: 0.4rem 0.8rem;">@_lastClick.SeriesName</td>
+            </tr>
+            <tr>
+                <td style="padding: 0.4rem 0.8rem; font-weight: bold;">Data Index:</td>
+                <td style="padding: 0.4rem 0.8rem;">@_lastClick.DataIndex</td>
+            </tr>
+            <tr>
+                <td style="padding: 0.4rem 0.8rem; font-weight: bold;">Value:</td>
+                <td style="padding: 0.4rem 0.8rem;">@_lastClick.Value</td>
+            </tr>
+            <tr>
+                <td style="padding: 0.4rem 0.8rem; font-weight: bold;">Component Type:</td>
+                <td style="padding: 0.4rem 0.8rem;">@_lastClick.ComponentType</td>
+            </tr>
+        </table>
+    }
+    else
+    {
+        <p style="color: #888; margin: 0;">Click on a bar in the chart above to see event data here.</p>
+    }
+</div>
+
+<div style="margin-top: 1rem;">
+    <h3>Click History</h3>
+    @if (_clickHistory.Count > 0)
+    {
+        <ul>
+            @foreach (var entry in _clickHistory)
+            {
+                <li>@entry</li>
+            }
+        </ul>
+    }
+    else
+    {
+        <p style="color: #888;">No clicks recorded yet.</p>
+    }
+</div>
+
+@code {
+    private EChartClickEvent? _lastClick;
+    private readonly List<string> _clickHistory = new();
+
+    private object _option = new
+    {
+        title = new
+        {
+            text = "Quarterly Revenue by Region",
+            left = "center"
+        },
+        tooltip = new
+        {
+            trigger = "axis"
+        },
+        legend = new
+        {
+            data = new[] { "North", "South", "East", "West" },
+            top = "bottom"
+        },
+        grid = new
+        {
+            left = "3%",
+            right = "4%",
+            bottom = "10%",
+            containLabel = true
+        },
+        xAxis = new
+        {
+            type = "category",
+            data = new[] { "Q1", "Q2", "Q3", "Q4" }
+        },
+        yAxis = new
+        {
+            type = "value",
+            name = "Revenue ($K)"
+        },
+        color = new[] { "#5470c6", "#91cc75", "#fac858", "#ee6666" },
+        series = new object[]
+        {
+            new { name = "North", type = "bar", data = new[] { 430, 520, 610, 580 } },
+            new { name = "South", type = "bar", data = new[] { 320, 380, 410, 390 } },
+            new { name = "East", type = "bar", data = new[] { 280, 340, 350, 420 } },
+            new { name = "West", type = "bar", data = new[] { 190, 250, 310, 280 } }
+        }
+    };
+
+    private void HandleClick(EChartClickEvent e)
+    {
+        _lastClick = e;
+        _clickHistory.Insert(0, $"{e.SeriesName} / {e.Name}: {e.Value}");
+
+        if (_clickHistory.Count > 10)
+        {
+            _clickHistory.RemoveAt(_clickHistory.Count - 1);
+        }
+    }
+}

@@ -1,0 +1,62 @@
+<nav class="nav-menu">
+    <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+        Home
+    </NavLink>
+    <NavLink class="nav-link" href="line-chart">
+        Line Chart
+    </NavLink>
+    <NavLink class="nav-link" href="bar-chart">
+        Bar Chart
+    </NavLink>
+    <NavLink class="nav-link" href="pie-chart">
+        Pie Chart
+    </NavLink>
+    <NavLink class="nav-link" href="sankey-chart">
+        Sankey Diagram
+    </NavLink>
+    <NavLink class="nav-link" href="dynamic-update">
+        Dynamic Update
+    </NavLink>
+    <NavLink class="nav-link" href="click-event">
+        Click Events
+    </NavLink>
+    <NavLink class="nav-link" href="typed-model">
+        Typed Model
+    </NavLink>
+    <NavLink class="nav-link" href="dark-theme">
+        Dark Theme
+    </NavLink>
+    <NavLink class="nav-link" href="resizable">
+        Resizable Chart
+    </NavLink>
+</nav>
+
+<style>
+    .nav-menu {
+        display: flex;
+        flex-direction: column;
+        padding: 0.5rem 0;
+    }
+
+    .nav-link {
+        display: block;
+        padding: 0.6rem 1.2rem;
+        color: #bdc3c7;
+        text-decoration: none;
+        font-size: 0.9rem;
+        transition: background-color 0.2s, color 0.2s;
+        border-left: 3px solid transparent;
+    }
+
+    .nav-link:hover {
+        background-color: rgba(255, 255, 255, 0.05);
+        color: #ecf0f1;
+    }
+
+    .nav-link.active {
+        background-color: rgba(255, 255, 255, 0.1);
+        color: #fff;
+        border-left-color: #3498db;
+        font-weight: 600;
+    }
+</style>

@@ -1,0 +1,151 @@
+@page "/dynamic-update"
+@implements IDisposable
+
+<h1>Dynamic Update Example</h1>
+<p>
+    This example demonstrates live chart updates using a <code>System.Threading.Timer</code>.
+    New data points are appended every 2 seconds, and the chart automatically re-renders
+    when the <code>Option</code> parameter changes.
+</p>
+
+<div style="margin-bottom: 1rem;">
+    <button @onclick="ToggleTimer" style="padding: 0.5rem 1rem; cursor: pointer;">
+        @(_isRunning ? "Pause" : "Start")
+    </button>
+    <button @onclick="ResetData" style="padding: 0.5rem 1rem; margin-left: 0.5rem; cursor: pointer;">
+        Reset
+    </button>
+    <span style="margin-left: 1rem; color: #666;">
+        Data points: @_dataPoints.Count
+    </span>
+</div>
+
+<EChart Option="@_option" Height="450px" />
+
+@code {
+    private System.Threading.Timer? _timer;
+    private bool _isRunning = true;
+    private readonly Random _random = new(42);
+    private List<string> _categories = new();
+    private List<int> _dataPoints = new();
+    private object _option = new { };
+    private int _counter;
+
+    protected override void OnInitialized()
+    {
+        ResetData();
+        StartTimer();
+    }
+
+    private void StartTimer()
+    {
+        _timer = new System.Threading.Timer(
+            callback: _ => InvokeAsync(AddDataPoint),
+            state: null,
+            dueTime: TimeSpan.FromSeconds(2),
+            period: TimeSpan.FromSeconds(2));
+        _isRunning = true;
+    }
+
+    private void ToggleTimer()
+    {
+        if (_isRunning)
+        {
+            _timer?.Change(Timeout.Infinite, Timeout.Infinite);
+            _isRunning = false;
+        }
+        else
+        {
+            _timer?.Change(TimeSpan.FromSeconds(2), TimeSpan.FromSeconds(2));
+            _isRunning = true;
+        }
+    }
+
+    private void ResetData()
+    {
+        _counter = 0;
+        _categories.Clear();
+        _dataPoints.Clear();
+
+        for (int i = 0; i < 10; i++)
+        {
+            AddPoint();
+        }
+
+        RebuildOption();
+    }
+
+    private void AddDataPoint()
+    {
+        AddPoint();
+
+        if (_dataPoints.Count > 30)
+        {
+            _categories.RemoveAt(0);
+            _dataPoints.RemoveAt(0);
+        }
+
+        RebuildOption();
+        StateHasChanged();
+    }
+
+    private void AddPoint()
+    {
+        _counter++;
+        _categories.Add($"T{_counter}");
+        _dataPoints.Add(_random.Next(50, 300));
+    }
+
+    private void RebuildOption()
+    {
+        _option = new
+        {
+            title = new
+            {
+                text = "Live Sensor Data",
+                left = "center"
+            },
+            tooltip = new
+            {
+                trigger = "axis"
+            },
+            grid = new
+            {
+                left = "3%",
+                right = "4%",
+                bottom = "3%",
+                containLabel = true
+            },
+            xAxis = new
+            {
+                type = "category",
+                boundaryGap = false,
+                data = _categories.ToArray()
+            },
+            yAxis = new
+            {
+                type = "value",
+                name = "Value",
+                min = 0,
+                max = 350
+            },
+            series = new[]
+            {
+                new
+                {
+                    name = "Sensor Reading",
+                    type = "line",
+                    smooth = true,
+                    areaStyle = new { },
+                    data = _dataPoints.ToArray()
+                }
+            },
+            color = new[] { "#5470c6" }
+        };
+    }
+
+    public void Dispose()
+    {
+        _timer?.Dispose();
+    }
+}

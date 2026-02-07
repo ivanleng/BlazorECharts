@@ -1,0 +1,117 @@
+@page "/resizable"
+
+<h1>Resizable Chart Example</h1>
+<p>
+    This example places a chart inside a resizable container using CSS flexbox. Use the
+    buttons below to change the container dimensions. The <code>&lt;EChart&gt;</code>
+    component uses <code>Width="100%"</code> by default, so it fills its parent container.
+</p>
+
+<div style="margin-bottom: 1rem;">
+    <strong>Width:</strong>
+    <button @onclick="() => SetWidth(400)" style="@ButtonStyle(_width == 400)">400px</button>
+    <button @onclick="() => SetWidth(600)" style="@ButtonStyle(_width == 600)">600px</button>
+    <button @onclick="() => SetWidth(800)" style="@ButtonStyle(_width == 800)">800px</button>
+    <button @onclick="() => SetWidth(0)" style="@ButtonStyle(_width == 0)">100%</button>
+
+    <strong style="margin-left: 1rem;">Height:</strong>
+    <button @onclick="() => SetHeight(300)" style="@ButtonStyle(_height == 300)">300px</button>
+    <button @onclick="() => SetHeight(400)" style="@ButtonStyle(_height == 400)">400px</button>
+    <button @onclick="() => SetHeight(500)" style="@ButtonStyle(_height == 500)">500px</button>
+    <button @onclick="() => SetHeight(600)" style="@ButtonStyle(_height == 600)">600px</button>
+</div>
+
+<div style="display: flex; justify-content: center;">
+    <div style="width: @WidthStyle; border: 2px dashed #aaa; border-radius: 8px; padding: 1rem; transition: width 0.3s ease; background: #fff;">
+        <EChart Option="@_option" Height="@HeightStyle" Width="100%" />
+    </div>
+</div>
+
+<p style="margin-top: 1rem; color: #666; text-align: center;">
+    Container size: @WidthStyle x @HeightStyle (dashed border shows container bounds)
+</p>
+
+@code {
+    private int _width = 0;
+    private int _height = 400;
+
+    private string WidthStyle => _width == 0 ? "100%" : $"{_width}px";
+    private string HeightStyle => $"{_height}px";
+
+    private EChartOption _option = new();
+
+    protected override void OnInitialized()
+    {
+        _option = new EChartOption
+        {
+            Title = new Title
+            {
+                Text = "Resizable Area Chart",
+                Left = "center"
+            },
+            Tooltip = new Tooltip
+            {
+                Trigger = "axis"
+            },
+            Legend = new Legend
+            {
+                Data = new List<string> { "Series A", "Series B" },
+                Top = "bottom"
+            },
+            Grid = new Grid
+            {
+                Left = "3%",
+                Right = "4%",
+                Bottom = "10%",
+                ContainLabel = true
+            },
+            XAxis = new XAxis
+            {
+                Type = "category",
+                BoundaryGap = false,
+                Data = new List<string> { "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun" }
+            },
+            YAxis = new YAxis
+            {
+                Type = "value"
+            },
+            Color = new List<string> { "#5470c6", "#91cc75" },
+            Series = new List<Series>
+            {
+                new LineSeries
+                {
+                    Name = "Series A",
+                    Smooth = true,
+                    AreaStyle = new { },
+                    Stack = "Total",
+                    Data = new List<int> { 120, 132, 101, 134, 90, 230, 210 }
+                },
+                new LineSeries
+                {
+                    Name = "Series B",
+                    Smooth = true,
+                    AreaStyle = new { },
+                    Stack = "Total",
+                    Data = new List<int> { 220, 182, 191, 234, 290, 330, 310 }
+                }
+            }
+        };
+    }
+
+    private void SetWidth(int width)
+    {
+        _width = width;
+    }
+
+    private void SetHeight(int height)
+    {
+        _height = height;
+    }
+
+    private string ButtonStyle(bool active)
+    {
+        return active
+            ? "padding: 0.3rem 0.8rem; margin-left: 0.3rem; cursor: pointer; border: none; border-radius: 4px; background-color: #5470c6; color: white;"
+            : "padding: 0.3rem 0.8rem; margin-left: 0.3rem; cursor: pointer; border: none; border-radius: 4px; background-color: #e0e0e0; color: #333;";
+    }
+}

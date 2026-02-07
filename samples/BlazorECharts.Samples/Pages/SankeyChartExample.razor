@@ -1,0 +1,77 @@
+@page "/sankey-chart"
+
+<h1>Sankey Diagram Example</h1>
+<p>
+    This example demonstrates a Sankey diagram using <code>SankeySeries</code> with explicit
+    nodes and links. It visualizes the flow of energy from sources through conversion
+    processes to end uses.
+</p>
+
+<EChart Option="@_option" Height="500px" />
+
+@code {
+    private EChartOption _option = new();
+
+    protected override void OnInitialized()
+    {
+        var nodes = new List<SankeyNode>
+        {
+            new SankeyNode { Name = "Coal" },
+            new SankeyNode { Name = "Natural Gas" },
+            new SankeyNode { Name = "Oil" },
+            new SankeyNode { Name = "Nuclear" },
+            new SankeyNode { Name = "Renewables" },
+            new SankeyNode { Name = "Electricity" },
+            new SankeyNode { Name = "Heat" },
+            new SankeyNode { Name = "Residential" },
+            new SankeyNode { Name = "Commercial" },
+            new SankeyNode { Name = "Industrial" },
+            new SankeyNode { Name = "Transport" }
+        };
+
+        var links = new List<SankeyLink>
+        {
+            new SankeyLink { Source = "Coal", Target = "Electricity", Value = 25 },
+            new SankeyLink { Source = "Coal", Target = "Heat", Value = 10 },
+            new SankeyLink { Source = "Natural Gas", Target = "Electricity", Value = 20 },
+            new SankeyLink { Source = "Natural Gas", Target = "Heat", Value = 15 },
+            new SankeyLink { Source = "Natural Gas", Target = "Industrial", Value = 10 },
+            new SankeyLink { Source = "Oil", Target = "Transport", Value = 40 },
+            new SankeyLink { Source = "Oil", Target = "Industrial", Value = 8 },
+            new SankeyLink { Source = "Nuclear", Target = "Electricity", Value = 15 },
+            new SankeyLink { Source = "Renewables", Target = "Electricity", Value = 12 },
+            new SankeyLink { Source = "Electricity", Target = "Residential", Value = 30 },
+            new SankeyLink { Source = "Electricity", Target = "Commercial", Value = 25 },
+            new SankeyLink { Source = "Electricity", Target = "Industrial", Value = 17 },
+            new SankeyLink { Source = "Heat", Target = "Residential", Value = 15 },
+            new SankeyLink { Source = "Heat", Target = "Commercial", Value = 10 }
+        };
+
+        _option = new EChartOption
+        {
+            Title = new Title
+            {
+                Text = "Energy Flow Diagram",
+                Left = "center"
+            },
+            Tooltip = new Tooltip
+            {
+                Trigger = "item"
+            },
+            Series = new List<Series>
+            {
+                new SankeySeries
+                {
+                    Name = "Energy Flow",
+                    Data = nodes,
+                    Links = links,
+                    Label = new
+                    {
+                        show = true,
+                        fontSize = 12
+                    }
+                }
+            }
+        };
+    }
+}

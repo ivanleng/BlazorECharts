@@ -1,0 +1,74 @@
+@page "/bar-chart"
+
+<h1>Bar Chart Example</h1>
+<p>
+    This example shows a grouped and stacked bar chart using <code>BarSeries</code>.
+    "Direct" and "Email" are stacked together under the "Advertising" stack group,
+    while "Video Ads" is displayed as a separate grouped bar.
+</p>
+
+<EChart Option="@_option" Height="500px" />
+
+@code {
+    private EChartOption _option = new();
+
+    protected override void OnInitialized()
+    {
+        _option = new EChartOption
+        {
+            Title = new Title
+            {
+                Text = "Website Traffic Sources",
+                Left = "center"
+            },
+            Tooltip = new Tooltip
+            {
+                Trigger = "axis"
+            },
+            Legend = new Legend
+            {
+                Data = new List<string> { "Direct", "Email", "Video Ads" },
+                Top = "bottom"
+            },
+            Grid = new Grid
+            {
+                Left = "3%",
+                Right = "4%",
+                Bottom = "10%",
+                ContainLabel = true
+            },
+            XAxis = new XAxis
+            {
+                Type = "category",
+                Data = new List<string> { "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun" }
+            },
+            YAxis = new YAxis
+            {
+                Type = "value",
+                Name = "Visits"
+            },
+            Color = new List<string> { "#5470c6", "#91cc75", "#ee6666" },
+            Series = new List<Series>
+            {
+                new BarSeries
+                {
+                    Name = "Direct",
+                    Stack = "Advertising",
+                    Data = new List<int> { 320, 332, 301, 334, 390, 330, 320 }
+                },
+                new BarSeries
+                {
+                    Name = "Email",
+                    Stack = "Advertising",
+                    Data = new List<int> { 120, 132, 101, 134, 90, 230, 210 }
+                },
+                new BarSeries
+                {
+                    Name = "Video Ads",
+                    BarWidth = "40%",
+                    Data = new List<int> { 150, 232, 201, 154, 190, 330, 410 }
+                }
+            }
+        };
+    }
+}

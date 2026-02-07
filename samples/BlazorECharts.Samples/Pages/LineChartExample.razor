@@ -1,0 +1,82 @@
+@page "/line-chart"
+
+<h1>Line Chart Example</h1>
+<p>
+    This example demonstrates a line chart with multiple series using the strongly-typed
+    <code>EChartOption</code> and <code>LineSeries</code> models. One series uses smooth curves
+    while the other uses straight line segments.
+</p>
+
+<EChart Option="@_option" Height="500px" />
+
+@code {
+    private EChartOption _option = new();
+
+    protected override void OnInitialized()
+    {
+        _option = new EChartOption
+        {
+            Title = new Title
+            {
+                Text = "Monthly Sales Report",
+                Subtext = "2024 Fiscal Year",
+                Left = "center"
+            },
+            Tooltip = new Tooltip
+            {
+                Trigger = "axis"
+            },
+            Legend = new Legend
+            {
+                Data = new List<string> { "Product A", "Product B", "Product C" },
+                Top = "bottom"
+            },
+            Grid = new Grid
+            {
+                Left = "3%",
+                Right = "4%",
+                Bottom = "10%",
+                ContainLabel = true
+            },
+            XAxis = new XAxis
+            {
+                Type = "category",
+                BoundaryGap = false,
+                Data = new List<string>
+                {
+                    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+                }
+            },
+            YAxis = new YAxis
+            {
+                Type = "value",
+                Name = "Sales (units)"
+            },
+            Color = new List<string> { "#5470c6", "#91cc75", "#fac858" },
+            Series = new List<Series>
+            {
+                new LineSeries
+                {
+                    Name = "Product A",
+                    Smooth = true,
+                    Data = new List<int> { 120, 132, 101, 134, 90, 230, 210, 182, 191, 234, 260, 300 }
+                },
+                new LineSeries
+                {
+                    Name = "Product B",
+                    Smooth = false,
+                    Symbol = "rect",
+                    Data = new List<int> { 220, 182, 191, 234, 290, 330, 310, 278, 301, 344, 380, 420 }
+                },
+                new LineSeries
+                {
+                    Name = "Product C",
+                    Smooth = true,
+                    AreaStyle = new { },
+                    Data = new List<int> { 50, 72, 61, 84, 109, 140, 135, 160, 178, 195, 210, 250 }
+                }
+            }
+        };
+    }
+}

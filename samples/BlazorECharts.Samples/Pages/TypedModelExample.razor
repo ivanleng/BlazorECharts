@@ -1,0 +1,159 @@
+@page "/typed-model"
+
+<h1>Typed Model Example</h1>
+<p>
+    This example builds the chart configuration entirely using the strongly-typed C# models
+    provided by BlazorECharts: <code>EChartOption</code>, <code>LineSeries</code>,
+    <code>BarSeries</code>, <code>Title</code>, <code>Legend</code>, <code>XAxis</code>,
+    <code>YAxis</code>, <code>Grid</code>, and <code>Tooltip</code>. No anonymous objects or
+    raw JSON strings are used for the top-level configuration.
+</p>
+
+<div style="margin-bottom: 1rem;">
+    <button @onclick="ShowTemperature" style="padding: 0.5rem 1rem; cursor: pointer; @(ActiveStyle("temperature"))">
+        Temperature (Line)
+    </button>
+    <button @onclick="ShowRainfall" style="padding: 0.5rem 1rem; margin-left: 0.5rem; cursor: pointer; @(ActiveStyle("rainfall"))">
+        Rainfall (Bar)
+    </button>
+</div>
+
+<EChart Option="@_option" Height="500px" />
+
+@code {
+    private EChartOption _option = new();
+    private string _activeChart = "temperature";
+
+    protected override void OnInitialized()
+    {
+        ShowTemperature();
+    }
+
+    private string ActiveStyle(string chart)
+    {
+        return _activeChart == chart
+            ? "background-color: #5470c6; color: white; border: none; border-radius: 4px;"
+            : "background-color: #e0e0e0; border: none; border-radius: 4px;";
+    }
+
+    private void ShowTemperature()
+    {
+        _activeChart = "temperature";
+
+        _option = new EChartOption
+        {
+            Title = new Title
+            {
+                Text = "Average Monthly Temperature",
+                Subtext = "Strongly-typed EChartOption with LineSeries",
+                Left = "center"
+            },
+            Tooltip = new Tooltip
+            {
+                Trigger = "axis"
+            },
+            Legend = new Legend
+            {
+                Data = new List<string> { "Tokyo", "London" },
+                Top = "bottom"
+            },
+            Grid = new Grid
+            {
+                Left = "3%",
+                Right = "4%",
+                Bottom = "10%",
+                ContainLabel = true
+            },
+            XAxis = new XAxis
+            {
+                Type = "category",
+                BoundaryGap = false,
+                Data = new List<string>
+                {
+                    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+                }
+            },
+            YAxis = new YAxis
+            {
+                Type = "value",
+                Name = "Temperature (C)"
+            },
+            Color = new List<string> { "#ee6666", "#5470c6" },
+            Series = new List<Series>
+            {
+                new LineSeries
+                {
+                    Name = "Tokyo",
+                    Smooth = true,
+                    Data = new List<double> { 7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6 }
+                },
+                new LineSeries
+                {
+                    Name = "London",
+                    Smooth = true,
+                    Data = new List<double> { 3.9, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0, 16.6, 14.2, 10.3, 6.6, 4.8 }
+                }
+            }
+        };
+    }
+
+    private void ShowRainfall()
+    {
+        _activeChart = "rainfall";
+
+        _option = new EChartOption
+        {
+            Title = new Title
+            {
+                Text = "Monthly Rainfall",
+                Subtext = "Strongly-typed EChartOption with BarSeries",
+                Left = "center"
+            },
+            Tooltip = new Tooltip
+            {
+                Trigger = "axis"
+            },
+            Legend = new Legend
+            {
+                Data = new List<string> { "Tokyo", "London" },
+                Top = "bottom"
+            },
+            Grid = new Grid
+            {
+                Left = "3%",
+                Right = "4%",
+                Bottom = "10%",
+                ContainLabel = true
+            },
+            XAxis = new XAxis
+            {
+                Type = "category",
+                Data = new List<string>
+                {
+                    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+                }
+            },
+            YAxis = new YAxis
+            {
+                Type = "value",
+                Name = "Rainfall (mm)"
+            },
+            Color = new List<string> { "#ee6666", "#5470c6" },
+            Series = new List<Series>
+            {
+                new BarSeries
+                {
+                    Name = "Tokyo",
+                    Data = new List<double> { 49.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4 }
+                },
+                new BarSeries
+                {
+                    Name = "London",
+                    Data = new List<double> { 48.9, 38.8, 39.3, 41.4, 47.0, 48.3, 59.0, 59.6, 52.4, 65.2, 59.3, 51.2 }
+                }
+            }
+        };
+    }
+}
