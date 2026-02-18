@@ -6,8 +6,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <IsPackable>true</IsPackable>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <PackageId>BlazorECharts</PackageId>
-    <Version>1.0.1</Version>
+    <PackageId>Vora.BlazorECharts</PackageId>
+    <Version>1.0.2</Version>
     <Authors>Ivan Vassiliev</Authors>
     <Description>Blazor WebAssembly and Blazor Server compatible wrapper for Apache ECharts v6</Description>
     <PackageTags>blazor;echarts;charts;visualization;webassembly</PackageTags>

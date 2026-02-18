@@ -13,7 +13,7 @@ namespace BlazorECharts.Tests.Components;
 /// </summary>
 public class EChartTests : TestContext
 {
-    private const string ModulePath = "/_content/BlazorECharts/echarts-interop.js";
+    private const string ModulePath = "/_content/Vora.BlazorECharts/echarts-interop.js";
 
     /// <summary>
     /// Helper to set up a loose JS module mock that accepts any calls.

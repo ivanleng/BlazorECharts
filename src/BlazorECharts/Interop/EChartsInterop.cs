@@ -27,7 +27,7 @@ public class EChartsInterop : IAsyncDisposable
         _jsRuntime = jsRuntime;
         _moduleTask = new Lazy<Task<IJSObjectReference>>(() =>
             _jsRuntime.InvokeAsync<IJSObjectReference>(
-                "import", "/_content/BlazorECharts/echarts-interop.js").AsTask());
+                "import", "/_content/Vora.BlazorECharts/echarts-interop.js").AsTask());
     }
 
     /// <summary>
