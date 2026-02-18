@@ -4,7 +4,7 @@ This guide walks you through adding BlazorECharts to your Blazor application and
 
 ## Prerequisites
 
-- .NET 8.0 SDK or .NET 9.0 SDK
+- .NET 8.0 SDK, .NET 9.0 SDK, or .NET 10.0 SDK
 - A Blazor WebAssembly or Blazor Server project
 
 ## Step 1: Install the NuGet Package

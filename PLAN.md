@@ -13,7 +13,7 @@ This document defines the phased implementation plan for the BlazorECharts libra
 1. **Create solution file** — `BlazorECharts.sln` at repository root.
 2. **Create library project** — `src/BlazorECharts/BlazorECharts.csproj`
    - Razor Class Library (`Sdk="Microsoft.NET.Sdk.Razor"`).
-   - Multi-target: `net8.0;net9.0`.
+   - Multi-target: `net8.0;net9.0;net10.0`.
    - Enable nullable reference types.
    - Set `<IsPackable>true</IsPackable>`, `<GenerateDocumentationFile>true</GenerateDocumentationFile>`.
    - Add `<PackageReadmeFile>README.md</PackageReadmeFile>` and include README in pack.
@@ -294,7 +294,7 @@ This document defines the phased implementation plan for the BlazorECharts libra
    - Include README in package: `<None Include="../../README.md" Pack="true" PackagePath="/" />`.
 2. **Run `dotnet pack -c Release -o ./artifacts`** — verify `.nupkg` is created.
 3. **Inspect package** — verify it contains:
-   - Compiled DLLs for net8.0 and net9.0.
+   - Compiled DLLs for net8.0, net9.0, and net10.0.
    - `staticwebassets` with `echarts-interop.js`.
    - README.md.
    - XML documentation.

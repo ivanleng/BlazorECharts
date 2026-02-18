@@ -12,6 +12,7 @@ Line, Bar, Pie, Sankey — with an extensible architecture for adding more.
 
 - `net8.0`
 - `net9.0`
+- `net10.0`
 
 ---
 
