@@ -1,6 +1,6 @@
 # BlazorECharts
 
-A Blazor component library wrapping [Apache ECharts](https://echarts.apache.org/) v6 for .NET 8 and .NET 9. Build interactive Line, Bar, Pie, and Sankey charts entirely from C# and Razor markup, with full support for both Blazor WebAssembly and Blazor Server.
+A Blazor component library wrapping [Apache ECharts](https://echarts.apache.org/) v6 for .NET 8, .NET 9, and .NET 10. Build interactive Line, Bar, Pie, and Sankey charts entirely from C# and Razor markup, with full support for both Blazor WebAssembly and Blazor Server.
 
 ## Features
 

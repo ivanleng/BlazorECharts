@@ -13,7 +13,7 @@ BlazorECharts is a Blazor component library that wraps Apache ECharts v6 so you 
 - Automatic JavaScript interop for chart lifecycle management
 - Event callbacks wired back into your Blazor component code
 
-The library ships as a NuGet package (`BlazorECharts`) targeting both .NET 8 and .NET 9.
+The library ships as a NuGet package (`BlazorECharts`) targeting .NET 8, .NET 9, and .NET 10.
 
 ## Hosting Model Support
 
